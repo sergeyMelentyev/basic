@@ -10,6 +10,16 @@ using namespace std;
 
 int main() {
 
+    int* new_name_0 = nullptr;                                      // init pointer with null for safety
+    int* new_name_1;                                                // declare pointer without init (bad)
+    int* new_name_2 = new int;                                      // alloc of dynamic ram without init
+    int* new_name_3 = new int(5);                                   // init pointer with value of 5
+    int* new_name_4 = new int[5];                                   // alloc of dynamic ram for array of 5 int
+    int* new_name_5 = new int[5] {0, 1, 2, 3, 4};                   // alloc and init array of 5 int
+
+    delete new_name_4;                                              // dealloc memory for one obj
+    delete[] new_name_5;                                            // dealloc memory for array
+
     char any_char_name = 'c';
     int any_var_name = 17;
     int* any_pointer_name = &any_var_name;                          // pointer of type int
@@ -18,6 +28,8 @@ int main() {
     cout << "Address of any_pointer_name = " << &any_pointer_name << "\n";
     cout << "Value at any_pointer_name = " << *any_pointer_name << "\n";
     *any_pointer_name = 27;
+    // the same
+    any_pointer_name[0] = 27;
     cout << "Address of any_var_name = " << any_pointer_name << "\n";
     cout << "Address of any_pointer_name = " << &any_pointer_name << "\n";
     cout << "Value at any_pointer_name = " << *any_pointer_name << "\n";
@@ -31,8 +43,8 @@ int main() {
 
     int n = 2;
     double* p = new double[n];                                      // allocation in dynamic ram for n values
-    cout << "Dynamic alloc = " << *p << "\n";
-    int* i = new int;                                               // allocation in dynamic ram for one int
+    cout << "Dynamic alloc = " << *p << "\n";                       // *p print first, p[0] print first
+    int* i = new int;                                               // alloc in dynamic ram for array of one int
     cout << "Dynamic alloc = " << *i << "\n";
 
 
