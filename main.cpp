@@ -8,53 +8,52 @@
 
 using namespace std;
 
+/* pointer vs reference */
+    int any_function_name(int x) { return x+1; }
+    void any_function_name(int* x) { ++*x; }
+    void any_function_name(int& x) { ++x; }
+
 int main() {
+    constexpr int max_value = 100;									// constant expression must be assigned
+    const int min_value = 100 / max_value;							// constant classic can be assign at compile time
+    double d {2.7};													// universal and uniform initialization
+
+/* pointers in depth */
+    int any_var_name = 17;
+    int* any_pointer_name = &any_var_name;                          // pointer of type int
+    *any_pointer_name = 27; /* <= the same as => */ any_pointer_name[0] = 27;
 
     int* new_name_0 = nullptr;                                      // init pointer with null for safety
     int* new_name_1;                                                // declare pointer without init (bad)
     int* new_name_2 = new int;                                      // alloc of dynamic ram without init
     int* new_name_3 = new int(5);                                   // init pointer with value of 5
-    int* new_name_4 = new int[5];                                   // alloc of dynamic ram for array of 5 int
-    int* new_name_5 = new int[5] {0, 1, 2, 3, 4};                   // alloc and init array of 5 int
+    int* new_name_4 = new int{5};
+    int* new_name_5 = new int[5];                                   // alloc of dynamic ram for array of 5 int
+    int* new_name_6 = new int[5] {0, 1, 2, 3, 4};                   // alloc and init array of 5 int
 
-    delete new_name_4;                                              // dealloc memory for one obj
-    delete[] new_name_5;                                            // dealloc memory for array
+    int* copy_shallow = new_name_4;                                 // shallow copy, the same object
+    int* deep_copy = new int{*new_name_4};                          // deep copy, different object
 
-    char any_char_name = 'c';
-    int any_var_name = 17;
-    int* any_pointer_name = &any_var_name;                          // pointer of type int
-
-    cout << "Address of any_var_name = " << any_pointer_name << "\n";
-    cout << "Address of any_pointer_name = " << &any_pointer_name << "\n";
-    cout << "Value at any_pointer_name = " << *any_pointer_name << "\n";
-    *any_pointer_name = 27;
-    // the same
-    any_pointer_name[0] = 27;
-    cout << "Address of any_var_name = " << any_pointer_name << "\n";
-    cout << "Address of any_pointer_name = " << &any_pointer_name << "\n";
-    cout << "Value at any_pointer_name = " << *any_pointer_name << "\n";
-
-    cout << "Size of char = " << sizeof(any_char_name) << "\n";
-    cout << "Size of int = " << sizeof(any_var_name) << "\n";
-    cout << "Size of pointer = " << sizeof(any_pointer_name) << "\n";
-
-    vector<int> any_vector_name(1000);
-    cout << "Size of vector = " << sizeof(any_vector_name) << "\n";
+    delete new_name_5;                                              // dealloc memory for one obj
+    delete[] new_name_6;                                            // dealloc memory for array
 
     int n = 2;
     double* p = new double[n];                                      // allocation in dynamic ram for n values
-    cout << "Dynamic alloc = " << *p << "\n";                       // *p print first, p[0] print first
+    cout << "Dynamic alloc = " << *p << "\n";                       // *p or p[0] print first element
     int* i = new int;                                               // alloc in dynamic ram for array of one int
     cout << "Dynamic alloc = " << *i << "\n";
 
+/* pointer vs reference */
+    int number_one = 10; int& ref = number_one; ref = 15;           // auto dereferenced pointer, called reference
+    int number_two = 10; int* poi = &number_two; *poi = 15;         // classic pointer
 
-    vector<int> v = {10, 3, 2, 7};                                  // vector init
-    vector<double> vd;                                              // vector declaration
-    vector<string> s(4);                                            // vector declaration with four elements
+/* vector in depth */
+    vector<int> v {10, 3, 2, 7};                                    // vector init with passed elements
     v.push_back(4);                                                 // add value to the end of the vector
-    for (int x : v)                                                 // for in range loop
-        cout << x;                                                  // cout function in std namespace
+    vector<double> vd;                                              // vector declaration
+    vector<string> s(4);                                            // vector declaration with four default elements
 
+/* custom data types in depth */
     custom_data_types token {'C', 14.0};                            // class init
     token.show_private_data();
     token.show_more();
