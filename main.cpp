@@ -53,6 +53,14 @@ int main() {
     vector<double> vd;                                              // vector declaration
     vector<string> s(4);                                            // vector declaration with four default elements
 
+/* array in depth */
+    const int max_number = 100;                                     // length of array must be set at compile time
+    int simple_array[max_number];                                   // classic array init
+    int* pointer_array = &simple_array[0];                          // pointer to the address of first element
+    *pointer_array = 0;                                             // change value of first element
+    pointer_array[0] = 1;                                           // change value of first element
+    pointer_array += 1;                                             // pointer to the address of second element
+
 /* custom data types in depth */
     custom_data_types token {'C', 14.0};                            // class init
     token.show_private_data();
