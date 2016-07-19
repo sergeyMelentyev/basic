@@ -7,16 +7,37 @@
 #include "custom_data_types.h"
 
 using namespace std;
+int summ_array(int values[], int size);                            // function prototype
 
 /* pointer vs reference */
     int any_function_name(int x) { return x+1; }
     void any_function_name(int* x) { ++*x; }
     void any_function_name(int& x) { ++x; }
 
-int main() {
+int main()
+{
     constexpr int max_value = 100;									// constant expression must be assigned
     const int min_value = 100 / max_value;							// constant classic can be assign at compile time
     double d {2.7};													// universal and uniform initialization
+
+/* enum types */
+    enum RainbowColor {
+        RC_RED = 1,
+        RC_ORANGE = 3,
+        RC_YELLOW
+    };
+    RainbowColor choose_color = RC_ORANGE;
+
+/* array in depth */
+    const int max_number = 10;                                      // length of array must be set at compile time
+    int simple_array[max_number];                                   // classic array init
+    int two_dimension_array[3][3];                                  // two dimension array
+    int summ_func = summ_array(simple_array, max_number);           // pass array to the func as an argument
+    
+    int* pointer_array = &simple_array[0];                          // pointer to the address of first element
+    *pointer_array = 0;                                             // change value of first element
+    pointer_array[0] = 1;                                           // change value of first element
+    pointer_array += 1;                                             // pointer to the address of second element
 
 /* pointers in depth */
     int any_var_name = 17;
@@ -53,14 +74,6 @@ int main() {
     vector<double> vd;                                              // vector declaration
     vector<string> s(4);                                            // vector declaration with four default elements
 
-/* array in depth */
-    const int max_number = 100;                                     // length of array must be set at compile time
-    int simple_array[max_number];                                   // classic array init
-    int* pointer_array = &simple_array[0];                          // pointer to the address of first element
-    *pointer_array = 0;                                             // change value of first element
-    pointer_array[0] = 1;                                           // change value of first element
-    pointer_array += 1;                                             // pointer to the address of second element
-
 /* custom data types in depth */
     custom_data_types token {'C', 14.0};                            // class init
     token.show_private_data();
@@ -76,4 +89,14 @@ int main() {
     Day next_day = Day::mon;
 
     return 0;
+}
+
+int summ_array(int values[], int size)
+{
+    int sum = 0;
+    for (int i = 0; i < size; i++)
+    {
+        sum += values[i];
+    }
+    return sum;
 }
