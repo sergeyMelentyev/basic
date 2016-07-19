@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <vector>
+#include "struct.h"
 #include "custom_data_types.h"
 
 using namespace std;
@@ -14,13 +15,12 @@ int summ_array(int values[], int size);                            // function p
     void any_function_name(int* x) { ++*x; }
     void any_function_name(int& x) { ++x; }
 
-int main()
-{
+int main() {
     constexpr int max_value = 100;									// constant expression must be assigned
     const int min_value = 100 / max_value;							// constant classic can be assign at compile time
     double d {2.7};													// universal and uniform initialization
 
-/* enum types */
+/* ENUM TYPE */
     enum RainbowColor {
         RC_RED = 1,
         RC_ORANGE = 3,
@@ -28,18 +28,37 @@ int main()
     };
     RainbowColor choose_color = RC_ORANGE;
 
-/* array in depth */
+/* STRUCT TYPE */
+    struct PlayerInfo {
+        int skill_level;
+        string name;
+    };
+
+    PlayerInfo playerOne;                                           // create a single struct
+    playerOne.name = "Sergey";
+    playerOne.skill_level = 10;
+
+    PlayerInfo players[5];                                          // create an array of structs
+    for (int i = 0; i < (sizeof(players)/sizeof(*players)); i++) {
+        // use loops in order to iterate inside an array of structs
+    }
+
+    EnemySpaceShip enemy = getNewEnemy();                           // check struct.h file
+    enemy = upgradeWeapon(enemy);
+
+/* ARRAY TYPE */
     const int max_number = 10;                                      // length of array must be set at compile time
     int simple_array[max_number];                                   // classic array init
     int two_dimension_array[3][3];                                  // two dimension array
+
     int summ_func = summ_array(simple_array, max_number);           // pass array to the func as an argument
-    
+
     int* pointer_array = &simple_array[0];                          // pointer to the address of first element
     *pointer_array = 0;                                             // change value of first element
     pointer_array[0] = 1;                                           // change value of first element
     pointer_array += 1;                                             // pointer to the address of second element
 
-/* pointers in depth */
+/* POINTERS IN DEPTH */
     int any_var_name = 17;
     int* any_pointer_name = &any_var_name;                          // pointer of type int
     *any_pointer_name = 27; /* <= the same as => */ any_pointer_name[0] = 27;
@@ -64,11 +83,11 @@ int main()
     int* i = new int;                                               // alloc in dynamic ram for array of one int
     cout << "Dynamic alloc = " << *i << "\n";
 
-/* pointer vs reference */
+/* POINTER VS REFERENCE */
     int number_one = 10; int& ref = number_one; ref = 15;           // auto dereferenced pointer, called reference
     int number_two = 10; int* poi = &number_two; *poi = 15;         // classic pointer
 
-/* vector in depth */
+/* VECTOR IN DEPTH */
     vector<int> v {10, 3, 2, 7};                                    // vector init with passed elements
     v.push_back(4);                                                 // add value to the end of the vector
     vector<double> vd;                                              // vector declaration
@@ -79,20 +98,10 @@ int main()
     token.show_private_data();
     token.show_more();
 
-    Date today;                                                     // struct init
-    today.day = 7;
-    today.month = 6;
-    today.year = 2016;
-
-    Month current = Month::jul;                                     // scoped enumeration
-    Day this_day = sun;                                             // simple enumeration
-    Day next_day = Day::mon;
-
     return 0;
 }
 
-int summ_array(int values[], int size)
-{
+int summ_array(int values[], int size) {                            // pass array as an argument to the func
     int sum = 0;
     for (int i = 0; i < size; i++)
     {
