@@ -4,6 +4,8 @@
 
 #include <iostream>
 #include <vector>
+#include <map>
+#include <string>
 #include "struct.h"
 #include "custom_data_types.h"
 
@@ -118,11 +120,42 @@ int main() {
     delete[] p_p_new_name;
 
 
-/*** VECTOR IN DEPTH ***/
-    vector<int> v {10, 3, 2, 7};                                    // vector init with passed elements
-    v.push_back(4);                                                 // add value to the end of the vector
-    vector<double> vd;                                              // vector declaration
+/*** STL VECTOR DATA TYPE ***/
+    vector<int> vd;                                                 // vector declaration
+
+    vector<int> v {10, 3, 2, 7};                                    // vector init with elements
+    v.push_back(4);                                                 // call build in methods
+    v.size();
+
     vector<string> s(4);                                            // vector declaration with four default elements
+
+
+/*** STL MAP DATA TYPE ***/
+    map<string, string> name_to_email;
+    name_to_email["Sergey"] = "sergey.melentyev@gmail.com";
+    name_to_email["Olga"] = "olga.melentyev@gmail.com";
+    name_to_email.size();
+    name_to_email.erase("Sergey");
+    if (name_to_email.empty()) { /* logic */ }
+
+
+/*** STL ITERATORS ***/
+    vector<int> vec_name;
+    vec_name.push_back(1);
+    vec_name.push_back(2);
+    vector<int>::iterator itr_name = vec_name.begin();              // save address of the first index (pointer)
+    itr_name++;                                                     // save address of the second index
+
+    // iteration inside vector
+    for (vector<int>:: iterator itr = vec_name.begin(); itr != vec_name.end(); ++itr) {
+        // logic here
+    }
+
+    // iterate inside map
+    for (map<string, string>:: iterator itr_map = name_to_email.begin(), end = name_to_email.end();
+            itr_map != end; ++itr_map) {
+        cout << itr_map -> first << " = " << itr_map -> second << endl;
+    }
 
 
 /*** CLASSES ***/
