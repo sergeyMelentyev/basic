@@ -5,9 +5,7 @@
 #include <iostream>
 #include <vector>
 #include <map>
-#include <string>
 #include "struct.h"
-#include "custom_data_types.h"
 
 using namespace std;
 int summ_array(int values[], int size);                            // function prototype
@@ -157,11 +155,6 @@ int main() {
         cout << itr_map -> first << " = " << itr_map -> second << endl;
     }
 
-
-/*** CLASSES ***/
-    custom_data_types token {'C', 14.0};                            // class init
-    token.show_private_data();
-    token.show_more();
 
     return 0;
 }
