@@ -7,8 +7,10 @@
 #include <map>
 #include "struct.h"
 
-using namespace std;
-int summ_array(int values[], int size);                            // function prototype
+using namespace std;                                                // using namespace
+using std::cout;
+
+int summ_array(int values[], int size);                             // function prototype
 
 
 /*** POINTER VS REFERENCE ***/
@@ -18,9 +20,15 @@ int summ_array(int values[], int size);                            // function p
 
 
 int main() {
-    constexpr int max_value = 100;									// constant expression must be assigned
-    const int min_value = 100 / max_value;							// constant classic can be assign at compile time
-    double d {2.7};													// universal and uniform initialization
+    constexpr int Max_value = 100;									// must be assigned before compilation
+    const int Min_value = 100 / Max_value;							// constant classic can be assign at compile time
+    int any_name_one = 2;                                           // simple initialization
+    int any_name_two (2);                                           // alternative initialization
+    int any_name_three {2};     									// universal and uniform initialization
+    int any_name_four = {2};                                        // universal and uniform initialization
+
+    double type_cast_one = double(any_name_three);                   // type casting
+    double type_cast_two = static_cast<double>(any_name_four);
 
 
 /*** ENUM TYPE ***/
@@ -61,12 +69,15 @@ int main() {
 
 /*** ARRAY TYPE ***/
     const int max_number = 10;                                      // length of array must be set at compile time
-    int simple_array[max_number];                                   // classic array init
+    int simple_array_one[max_number];                               // classic array init
+    int simple_array_two[4] = {3, 6, 8, 10};
+    int simple_array_three[100] = {1};                              // init all (but first) elements with zero
+
     int two_dimension_array[3][3];                                  // two dimension array
 
-    int summ_func = summ_array(simple_array, max_number);           // pass array to the func as an argument
+    int summ_func = summ_array(simple_array_one, max_number);       // pass array to the func as an argument
 
-    int* pointer_array = &simple_array[0];                          // pointer to the address of first element
+    int* pointer_array = &simple_array_one[0];                      // pointer to the address of first element
     *pointer_array = 0;                                             // change value of first element
     pointer_array[0] = 1;                                           // change value of first element
     pointer_array += 1;                                             // pointer to the address of second element
