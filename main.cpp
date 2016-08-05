@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <vector>
+#include <array>
 #include <map>
 #include "struct.h"
 
@@ -40,20 +41,31 @@ int main() {
     RainbowColor choose_color = RC_ORANGE;
 
 
-/*** STRUCT TYPE ***/
-    struct PlayerInfo {
-        int skill_level;
-        string name;
+/*** UNION TYPE ***/
+    union one4all {                                                 // union can hold only one value at a time
+        int int_value;
+        long long_value;
+        double double_value;
     };
 
-    PlayerInfo playerOne;                                           // create a single struct
-    playerOne.name = "Sergey";
-    playerOne.skill_level = 10;
 
-    PlayerInfo players[5];                                          // create an array of structs
-    for (int i = 0; i < (sizeof(players)/sizeof(*players)); i++) {
-        // use loops in order to iterate inside an array of structs
-    }
+/*** STRUCT TYPE ***/
+    struct PlayerInfo {
+        string name;
+        int skill_level;
+    };
+
+    PlayerInfo playerOne = { "Oleg", 10 };                          // create and init a struct
+    PlayerInfo playerTwo {};                                        // create a struct and init with zero
+    PlayerInfo playerThree;                                         // create a struct
+    playerThree.name = "Sergey";
+    playerThree.skill_level = 10;
+
+    PlayerInfo players_first[2];                                    // create an array of structs
+    for (int i = 0; i < (sizeof(players_first)/sizeof(*players_first)); i++) { }
+    PlayerInfo players_second[2] {                                  // create an array of struct
+        {"Sergey", 10}, {"Olga", 10}
+    };
 
     EnemySpaceShip enemy = getNewEnemy();                           // check struct.h file for more details
     enemy = upgradeWeapon(enemy);
@@ -70,17 +82,19 @@ int main() {
 /*** ARRAY TYPE ***/
     const int max_number = 10;                                      // length of array must be set at compile time
     int simple_array_one[max_number];                               // classic array init
-    int simple_array_two[4] = {3, 6, 8, 10};
-    int simple_array_three[100] = {1};                              // init all (but first) elements with zero
+    int simple_array_two[4] = {3, 6};
+    int simple_array_three[] {3, 6};                                // init array with two ints
+    int simple_array_four[100] = {};                                // init array with all zero
 
     int two_dimension_array[3][3];                                  // two dimension array
 
     int summ_func = summ_array(simple_array_one, max_number);       // pass array to the func as an argument
 
-    int* pointer_array = &simple_array_one[0];                      // pointer to the address of first element
-    *pointer_array = 0;                                             // change value of first element
-    pointer_array[0] = 1;                                           // change value of first element
-    pointer_array += 1;                                             // pointer to the address of second element
+    int* pointer_array_one = simple_array_one;                      // pointer to the address of first element
+    int* pointer_array_two = &simple_array_one[0];
+    *pointer_array_two = 0;                                         // change value of first element
+    pointer_array_two[0] = 1;                                       // change value of first element
+    pointer_array_two += 1;                                         // pointer to the address of second element
 
 
 /*** POINTERS IN DEPTH ***/
@@ -88,9 +102,17 @@ int main() {
     int* empty_pointer;                                             // declare pointer without init (bad)
     int any_var_name = 17;
     int* any_pointer_name = &any_var_name;                          // pointer of type int
-    *any_pointer_name = 27;
-    /* <= the same as => */
-    any_pointer_name[0] = 27;
+    *any_pointer_name = 27;                                         // assign a new value to the any_var_name
+
+    PlayerInfo s01, s02, s03;                                       // init three structs of type PlayerInfo
+    s01.skill_level = 1;
+    PlayerInfo *pa = &s02;                                          // init a pointer of type PlayerInfo
+    pa->skill_level = 1;
+    PlayerInfo trio[3];                                             // init an array of three structs
+    trio[0].skill_level = 1;
+    const PlayerInfo * arp[3] {&s01, &s02, &s03};                   // init an array of three pointers
+    cout << arp[0]->skill_level << endl;
+    const PlayerInfo ** ppa = arp;                                  // init a pointer to the array of pointers
 
 
 /*** POINTER VS REFERENCE ***/
@@ -98,7 +120,11 @@ int main() {
     int number_two = 10; int* poi = &number_two; *poi = 15;         // classic pointer
 
 
-/*** MEMORY MANAGEMENT ***/
+/*** MEMORY MANAGEMENT (STACK/STATIC/HEAP) ***/
+    // auto variable in function use stack memory
+    // static variable exist with program`s life circle
+    // dynamic memory called (heap)
+
     int* new_name_0 = new int;                                      // alloc of dynamic memory
     delete new_name_0;                                              // dealloc memory and set pointer equal to NULL
     new_name_0 = NULL;
@@ -110,7 +136,7 @@ int main() {
     int* new_name_4 = new int[5] {0, 1, 2, 3, 4};
     delete[] new_name_4;                                            // dealloc memory for array
 
-    int* copy_shallow = new_name_2;                                 // shallow copy, the same object
+    int* shallow_copy = new_name_2;                                 // shallow copy, the same object
     int* deep_copy = new int{*new_name_2};                          // deep copy, different object
 
     int** p_p_new_name;
@@ -129,14 +155,25 @@ int main() {
     delete[] p_p_new_name;
 
 
-/*** STL VECTOR DATA TYPE ***/
-    vector<int> vd;                                                 // vector declaration
+    PlayerInfo * ps = new PlayerInfo;                               // alloc dynamic memory for struct object
+    ps -> name = "Sergey";                                          // access property
+    ps -> skill_level = 10;
+    delete ps;
 
+
+/*** STL VECTOR OBJECT DATA TYPE ***/
+    // vector object uses heap memory
+    vector<int> vd;                                                 // vector declaration
+    vector<string> s(4);                                            // vector declaration with four default elements
     vector<int> v {10, 3, 2, 7};                                    // vector init with elements
-    v.push_back(4);                                                 // call build in methods
+    v.push_back(4);                                                 // call build-in method
     v.size();
 
-    vector<string> s(4);                                            // vector declaration with four default elements
+
+/*** STL ARRAY OBJECT DATA TYPE ***/
+    // array object uses stack memory
+    array<int, 5> stl_array;
+    array<int, 2> stl_arr {1, 2};
 
 
 /*** STL MAP DATA TYPE ***/
