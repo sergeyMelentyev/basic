@@ -103,6 +103,9 @@ int main() {
     int any_var_name = 17;
     int* any_pointer_name = &any_var_name;                          // pointer of type int
     *any_pointer_name = 27;                                         // assign a new value to the any_var_name
+    
+    int x_ptr = *++any_pointer_name;                                // increment pointer, take the value
+    int y_ptr = ++*any_pointer_name;                                // increment taken value
 
     PlayerInfo s01, s02, s03;                                       // init three structs of type PlayerInfo
     s01.skill_level = 1;
