@@ -106,6 +106,7 @@ int main() {
     
     int x_ptr = *++any_pointer_name;                                // increment pointer, take the value
     int y_ptr = ++*any_pointer_name;                                // increment taken value
+    int z_ptr = *any_pointer_name++;                                // разыменовать pointer then incremen pointer
 
     PlayerInfo s01, s02, s03;                                       // init three structs of type PlayerInfo
     s01.skill_level = 1;
