@@ -11,25 +11,23 @@
 using namespace std;                                                // using namespace
 using std::cout;
 
-int summ_array(int values[], int size);                             // function prototype
-
+int summ_array_size(int values[], int size);                        // function prototype
+int summ_array_ptr(const int*, const int*);
 
 /*** POINTER VS REFERENCE ***/
-    int any_function_name(int x) { return x+1; }
-    void any_function_name(int* x) { ++*x; }
-    void any_function_name(int& x) { ++x; }
+int any_function_name(int x) { return x+1; }
+void any_function_name(int* x) { ++*x; }
+void any_function_name(int& x) { ++x; }
 
 
 int main() {
     constexpr int Max_value = 100;									// must be assigned before compilation
     const int Min_value = 100 / Max_value;							// constant classic can be assign at compile time
-    int any_name_one = 2;                                           // simple initialization
-    int any_name_two (2);                                           // alternative initialization
-    int any_name_three {2};     									// universal and uniform initialization
-    int any_name_four = {2};                                        // universal and uniform initialization
+    int any_name_one (2);                                           // alternative initialization
+    int any_name_two {2};        									// universal and uniform initialization
 
-    double type_cast_one = double(any_name_three);                   // type casting
-    double type_cast_two = static_cast<double>(any_name_four);
+    double type_cast_one = double(any_name_one);                    // type casting
+    double type_cast_two = static_cast<double>(any_name_two);
 
 
 /*** ENUM TYPE ***/
@@ -64,7 +62,7 @@ int main() {
     PlayerInfo players_first[2];                                    // create an array of structs
     for (int i = 0; i < (sizeof(players_first)/sizeof(*players_first)); i++) { }
     PlayerInfo players_second[2] {                                  // create an array of struct
-        {"Sergey", 10}, {"Olga", 10}
+            {"Sergey", 10}, {"Olga", 10}
     };
 
     EnemySpaceShip enemy = getNewEnemy();                           // check struct.h file for more details
@@ -82,31 +80,33 @@ int main() {
 /*** ARRAY TYPE ***/
     const int max_number = 10;                                      // length of array must be set at compile time
     int simple_array_one[max_number];                               // classic array init
-    int simple_array_two[4] = {3, 6};
-    int simple_array_three[] {3, 6};                                // init array with two ints
-    int simple_array_four[100] = {};                                // init array with all zero
+    int simple_array_two[] {3, 6};                                  // init array with two ints
+    int simple_array_three[100] = {};                               // init array with all zero
 
-    int two_dimension_array[3][3];                                  // two dimension array
+    simple_array_one[1] == *(simple_array_one + 1);                 // value in two notations
+    &simple_array_one[1] == simple_array_one + 1;                   // address in two notations
 
-    int summ_func = summ_array(simple_array_one, max_number);       // pass array to the func as an argument
+    const char* cities[3] = {                                       // array of pointers of type char
+            "New York", "Florida", "Cambridge"
+    };
 
-    int* pointer_array_one = simple_array_one;                      // pointer to the address of first element
-    int* pointer_array_two = &simple_array_one[0];
-    *pointer_array_two = 0;                                         // change value of first element
-    pointer_array_two[0] = 1;                                       // change value of first element
-    pointer_array_two += 1;                                         // pointer to the address of second element
+    int sum_size = summ_array_size(simple_array_two, 2);            // pass array as an argument, sum by size
+    int sum_ptr = summ_array_ptr(simple_array_two, simple_array_two + 2);   // sum by ptr
+
+
+/*** LOOPS ***/
+    // range based loop
+    for (int x : simple_array_one)
+        // logic goes here
 
 
 /*** POINTERS IN DEPTH ***/
     int* null_pointer = nullptr;                                    // init pointer with null for safety
-    int* empty_pointer;                                             // declare pointer without init (bad)
-    int any_var_name = 17;
-    int* any_pointer_name = &any_var_name;                          // pointer of type int
-    *any_pointer_name = 27;                                         // assign a new value to the any_var_name
-    
+    int* any_pointer_name = simple_array_two;
+
     int x_ptr = *++any_pointer_name;                                // increment pointer, take the value
     int y_ptr = ++*any_pointer_name;                                // increment taken value
-    int z_ptr = *any_pointer_name++;                                // разыменовать pointer then incremen pointer
+    int z_ptr = *any_pointer_name++;                                // разыменовать pointer then increment pointer
 
     PlayerInfo s01, s02, s03;                                       // init three structs of type PlayerInfo
     s01.skill_level = 1;
@@ -115,7 +115,6 @@ int main() {
     PlayerInfo trio[3];                                             // init an array of three structs
     trio[0].skill_level = 1;
     const PlayerInfo * arp[3] {&s01, &s02, &s03};                   // init an array of three pointers
-    cout << arp[0]->skill_level << endl;
     const PlayerInfo ** ppa = arp;                                  // init a pointer to the array of pointers
 
 
@@ -203,7 +202,7 @@ int main() {
 
     // iterate inside map
     for (map<string, string>:: iterator itr_map = name_to_email.begin(), end = name_to_email.end();
-            itr_map != end; ++itr_map) {
+         itr_map != end; ++itr_map) {
         cout << itr_map -> first << " = " << itr_map -> second << endl;
     }
 
@@ -212,11 +211,16 @@ int main() {
 }
 
 
-int summ_array(int values[], int size) {                            // pass array as an argument to the func
+int summ_array_size(int values[], int size) {                            // pass array as an argument, sum by size
     int sum = 0;
     for (int i = 0; i < size; i++)
-    {
         sum += values[i];
-    }
     return sum;
+}
+int summ_array_ptr(const int* begin, const int* end) {                  // pass array as an argument, sum by ptr
+    const int* pt;
+    int total = 0;
+    for (pt = begin; pt != end; pt++)
+        total += *pt;
+    return total;
 }
