@@ -8,11 +8,20 @@
 #include <map>
 #include "struct.h"
 
-using namespace std;                                                // using namespace
-using std::cout;
 
-int summ_array_size(int values[], int size);                        // function prototype
-int summ_array_ptr(const int*, const int*);
+using namespace std;                                                // namespace directive, add all
+using std::cout;                                                    // namespace declaration, add selected
+
+
+int summ_array_size(int values[], int size);                        // func proto
+int summ_array_ptr(const int*, const int*);                         // func proto with ptr as an args
+
+inline int any_name(int x) { return x * x; }                        // inline func, will take more ram with fast performance
+
+void estimate(int lines, double (*pf) (int));                       // func proto with ptr to the func as an arg
+double helper_one(int);
+double  helper_two(int);
+
 
 /*** POINTER VS REFERENCE ***/
 int any_function_name(int x) { return x+1; }
@@ -117,8 +126,15 @@ int main() {
     const PlayerInfo * arp[3] {&s01, &s02, &s03};                   // init an array of three pointers
     const PlayerInfo ** ppa = arp;                                  // init a pointer to the array of pointers
 
+    int (*pointer_to_func)(int values[], int size);                 // declare a pointer to the function
+    pointer_to_func = summ_array_size;                              // assign pointer to the function
+
+    estimate(100, helper_one);                                      // call func with ptr to the func as an arg
+    estimate(100, helper_two);
+
 
 /*** POINTER VS REFERENCE ***/
+    // reference must be declared and initialize at once
     int number_one = 10; int& ref = number_one; ref = 15;           // auto dereferenced pointer, called reference
     int number_two = 10; int* poi = &number_two; *poi = 15;         // classic pointer
 
@@ -126,7 +142,7 @@ int main() {
 /*** MEMORY MANAGEMENT (STACK/STATIC/HEAP) ***/
     // auto variable in function use stack memory
     // static variable exist with program`s life circle
-    // dynamic memory called (heap)
+    // dynamic memory called heap
 
     int* new_name_0 = new int;                                      // alloc of dynamic memory
     delete new_name_0;                                              // dealloc memory and set pointer equal to NULL
@@ -158,6 +174,11 @@ int main() {
     delete[] p_p_new_name;
 
 
+    const int buf = 512;                                            // alloc dynamic memory in existing location
+    char buffer[buf];
+    int* new_name_5 = new(buffer) int[5];
+
+
     PlayerInfo * ps = new PlayerInfo;                               // alloc dynamic memory for struct object
     ps -> name = "Sergey";                                          // access property
     ps -> skill_level = 10;
@@ -177,6 +198,11 @@ int main() {
     // array object uses stack memory
     array<int, 5> stl_array;
     array<int, 2> stl_arr {1, 2};
+
+    void show_array_obj(array<int, 2> da);                          // func proto with array arg as a copy of obj
+    // show_array_obj(any_name);
+    void show_array_ptr(array<int, 2> * pa);                        // func proto with array arg as a pointer
+    // show_array_ptr(&any_name);
 
 
 /*** STL MAP DATA TYPE ***/
@@ -211,16 +237,28 @@ int main() {
 }
 
 
-int summ_array_size(int values[], int size) {                            // pass array as an argument, sum by size
+int summ_array_size(int values[], int size) {                            // pass array as an arg, sum by size
     int sum = 0;
     for (int i = 0; i < size; i++)
         sum += values[i];
     return sum;
 }
-int summ_array_ptr(const int* begin, const int* end) {                  // pass array as an argument, sum by ptr
+
+int summ_array_ptr(const int* begin, const int* end) {                  // pass array as an arg, sum by ptr
     const int* pt;
     int total = 0;
     for (pt = begin; pt != end; pt++)
         total += *pt;
     return total;
+}
+
+void estimate(int lines, double (*pf) (int)) {                          // pass ptr to the func as an arg
+    cout << lines << " lines will take "
+         << (*pf)(lines) << " hour(s)" << endl;
+}
+double helper_one(int lns) {
+    return 0.05 * lns;
+}
+double  helper_two(int lns) {
+    return 0.03 * lns + 0.0004 * lns * lns;
 }
