@@ -7,7 +7,7 @@
 #include <array>
 #include <map>
 #include "struct.h"
-
+#include "Custom_class.h"
 
 using namespace std;                                                // namespace directive, add all
 using std::cout;                                                    // namespace declaration, add selected
@@ -183,6 +183,18 @@ int main() {
     ps -> name = "Sergey";                                          // access property
     ps -> skill_level = 10;
     delete ps;
+
+
+/*** CLASS ***/
+    Custom_class comp_name_zero;                                    // init new object of your type
+    Custom_class comp_name_one("AMD", 15, 18.75);
+    Custom_class comp_name_two = Custom_class("Intel", 10, 20.00);
+    Custom_class* comp_name_three = new Custom_class("NVidea", 20, 21.11);
+
+    comp_name_zero.show();
+    comp_name_one.show();
+    comp_name_two.show();
+    comp_name_three->show();
 
 
 /*** STL VECTOR OBJECT DATA TYPE ***/
